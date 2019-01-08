@@ -6,9 +6,10 @@ library(readxl)
 options(scipen=999)
 #hubo un problema al leer el txt con el BSR 1917124
 #pues  la descripcion tenia una " sin cerrar
-balance <- read.delim2("C:/Users/Nancy/Desktop/Excel/balance.txt")
+#balance <- read.delim2("C:/Users/Nancy/Desktop/Excel/balance.txt")
+balance <- read.delim2(paste(getwd(),"balance.txt",sep = "/"))
 #convierto en fecha la columna FECHA.ALPHA
-balance$FECHA.ALHA <- as.Date(as.character(balance$FECHA.ALHA),format = "%d/%m/%Y")
+balance$FECHA_ALHA <- as.Date(as.character(balance$FECHA_ALHA),format = "%d/%m/%Y")
 #convierto en factor columnas BSR, BCRA, NIIF y Rubro.Activo
 balance$BSR <- as.factor(balance$BSR)
 balance$BCRA <- as.factor(balance$BCRA)
@@ -18,7 +19,9 @@ balance$Rubro.Activo <- as.factor(balance$Rubro.Activo)
 str(balance)
 
 #TRABAJO CON PESTANA BG TRATO DE LEER TITULOS
-BG <- read_excel(path = "C:/Users/Nancy/Desktop/Excel/excel.xlsx",sheet = 22,range = "B1:S1590",col_names = TRUE)
+#BG <- read_excel(path = "C:/Users/Nancy/Desktop/Excel/excel.xlsx",sheet = 22,range = "B1:S1590",col_names = TRUE)
+BG <- read_excel(path = paste(getwd(),"excel.xlsx",sep = "/"),sheet = 22,range = "B1:S1590",col_names = TRUE)
+
 
 for(i in 1:nrow(BG)){
 BG[i,7] <-  paste(as.character(BG[i,5]),as.character(BG[i,6]),sep = "")
@@ -161,7 +164,9 @@ BG[cd1[5],i] <- sum(BG[c(880,887,896),i])
 }
 
 #LEO PESTANA APRC-SALDOS
-APRC <- read_excel(path = "C:/Users/Nancy/Desktop/Excel/excel.xlsx",sheet = 13,range = "A2:R62",col_names = TRUE)
+#APRC <- read_excel(path = "C:/Users/Nancy/Desktop/Excel/excel.xlsx",sheet = 13,range = "A2:R62",col_names = TRUE)
+APRC <- read_excel(path = paste(getwd(),"excel.xlsx",sep = "/"),sheet = 13,range = "A2:R62",col_names = TRUE)
+
 
 APRC1 <- as.data.frame(APRC[2:28,1:16])
 #nuevos nombres
@@ -181,9 +186,29 @@ str(APRC1)
 #Relleno celdas de ponderadores
 BG <- as.data.frame(BG)
 
+pond <- c("0.0","0.002","0.004","0.2","0.35","0.50","0.75","1","1.25","1.50","12.5")
+
+for(j in 1:length(pond)){
 for(i in 1:nrow(APRC1)){
-APRC1[i,4] <- sum(BG[which(as.numeric(paste(as.character(APRC1[i,1]),"0.0",sep = ""))==BG[,7]),8])
+APRC1[i,3+j] <- sum(BG[which(as.numeric(paste(as.character(APRC1[i,1]),pond[j],sep = ""))==BG[,7]),7+j])
+}
 }
 
-which(as.numeric(paste(as.character(APRC1[1,1]),"0.002",sep = ""))==BG[,7])
+
+
+
+which(as.numeric(paste(as.character(APRC1[1,1]),"0.004",sep = ""))==BG[,7])
+which(as.numeric(paste(as.character(APRC1[1,1]),"0.2",sep = ""))==BG[,7])
+which(as.numeric(paste(as.character(APRC1[1,1]),"0.35",sep = ""))==BG[,7])
+which(as.numeric(paste(as.character(APRC1[1,1]),"0.50",sep = ""))==BG[,7])
+which(as.numeric(paste(as.character(APRC1[1,1]),"0.75",sep = ""))==BG[,7])
+which(as.numeric(paste(as.character(APRC1[1,1]),"1",sep = ""))==BG[,7])
+which(as.numeric(paste(as.character(APRC1[1,1]),"1.25",sep = ""))==BG[,7])
+which(as.numeric(paste(as.character(APRC1[1,1]),"1.50",sep = ""))==BG[,7])
+which(as.numeric(paste(as.character(APRC1[1,1]),"12.5",sep = ""))==BG[,7])
+
+
+
+
+
 
