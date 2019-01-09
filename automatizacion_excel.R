@@ -194,20 +194,71 @@ APRC1[i,3+j] <- sum(BG[which(as.numeric(paste(as.character(APRC1[i,1]),pond[j],s
 }
 }
 
+#celdas diferentes en pestaña APRC-saldos
+#columna 0%
+APRC1[9,4] <- (sum(balance[which("1377102"==balance[,3]),7])+sum(balance[which("1334102"==balance[,3]),7]))/1000
 
+#Replico suma de pestaña Cobertura RC
+sum(balance[which("141134"==balance[,5]),7])/1000
+sum(balance[which("145129"==balance[,5]),7])/1000
+sum(balance[which("321171"==balance[,5]),7])/1000
+sum(balance[which("321189"==balance[,5]),7])/1000
+sum(balance[which("325171"==balance[,5]),7])/1000
+#ojo
+sum(balance[which("3251461"==balance[,5]),7])/1000
 
+#hay que hacer una formula media rara ver pestaña
 
-which(as.numeric(paste(as.character(APRC1[1,1]),"0.004",sep = ""))==BG[,7])
-which(as.numeric(paste(as.character(APRC1[1,1]),"0.2",sep = ""))==BG[,7])
-which(as.numeric(paste(as.character(APRC1[1,1]),"0.35",sep = ""))==BG[,7])
-which(as.numeric(paste(as.character(APRC1[1,1]),"0.50",sep = ""))==BG[,7])
-which(as.numeric(paste(as.character(APRC1[1,1]),"0.75",sep = ""))==BG[,7])
-which(as.numeric(paste(as.character(APRC1[1,1]),"1",sep = ""))==BG[,7])
-which(as.numeric(paste(as.character(APRC1[1,1]),"1.25",sep = ""))==BG[,7])
-which(as.numeric(paste(as.character(APRC1[1,1]),"1.50",sep = ""))==BG[,7])
-which(as.numeric(paste(as.character(APRC1[1,1]),"12.5",sep = ""))==BG[,7])
+APRC1[15,4] <- 
 
+#columna 20%
+APRC1[6,7] <- 
+  
+#columna 35%
+APRC1[12,8] <- 
 
+#columna 50%
+APRC1[6,9] <- 
+APRC1[11,9] <- 
+APRC1[12,9] <- 
+APRC1[13,9] <- 
+APRC1[14,9] <- 
+  
+#columna 75%
+APRC1[10,10] <- 
+APRC1[14,10] <- 
+APRC1[18,10] <- 
+APRC1[20,10] <- 
+
+#columna 100%
+APRC1[6,11] <- 
+APRC1[8,11] <- 
+APRC1[9,11] <- 
+APRC1[10,11] <- 
+APRC1[12,11] <- 
+APRC1[13,11] <- 
+APRC1[14,11] <- 
+APRC1[15,11] <- 
+APRC1[17,11] <- 
+APRC1[18,11] <- 
+APRC1[19,11] <- 
+APRC1[20,11] <- 
+APRC1[21,11] <- 
+APRC1[22,11] <- 
+APRC1[26,11] <- 
+
+#columna 125%
+APRC1[14,12] <- 
+
+#columna 150%
+APRC1[14,13] <- 
+
+#columna 1250%
+APRC1[26,14] <- 
+
+#columna total excepciones
+APRC1[9,15] <- 
+  
 
 
 
