@@ -199,17 +199,23 @@ APRC1[i,3+j] <- sum(BG[which(as.numeric(paste(as.character(APRC1[i,1]),pond[j],s
 APRC1[9,4] <- (sum(balance[which("1377102"==balance[,3]),7])+sum(balance[which("1334102"==balance[,3]),7]))/1000
 
 #Replico suma de pestaña Cobertura RC
-sum(balance[which("141134"==balance[,5]),7])/1000
-sum(balance[which("145129"==balance[,5]),7])/1000
-sum(balance[which("321171"==balance[,5]),7])/1000
-sum(balance[which("321189"==balance[,5]),7])/1000
-sum(balance[which("325171"==balance[,5]),7])/1000
+co1 <- sum(balance[which("141134"==balance[,5]),7])/1000
+co2 <- sum(balance[which("145129"==balance[,5]),7])/1000
+co3 <- sum(balance[which("321171"==balance[,5]),7])/1000
+co4 <- sum(balance[which("321189"==balance[,5]),7])/1000
+#co5 <- sum(balance[which("325171"==balance[,5]),7])/1000
 #ojo
-sum(balance[which("3251461"==balance[,5]),7])/1000
+co5 <- sum(balance[which("3251461"==balance[,5]),7])/1000
 
-#hay que hacer una formula media rara ver pestaña
+co1+co2+co3+co4+co5
 
-APRC1[15,4] <- 
+#hay que hacer una formula SI
+#condicion
+if((co2+co1)*(1+0)-(-co3-co4)*(1-0.04)-(-co5)*(1-0.12)>0){
+  APRC1[15,4] <- APRC1[15,4]+(co2+co1)*(1+0)-(-co3-co4)*(1-0.04)-(-co5)*(1-0.12)
+}
+
+
 
 #columna 20%
 APRC1[6,7] <- 
