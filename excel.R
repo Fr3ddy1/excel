@@ -168,3 +168,35 @@ for(i in 8:18){
   
 }
 
+#LEO PESTANA APRC-SALDOS
+#APRC <- read_excel(path = "C:/Users/Nancy/Desktop/Excel/excel.xlsx",sheet = 13,range = "A2:R62",col_names = TRUE)
+APRC <- read_excel(path = paste(getwd(),"excel.xlsx",sep = "/"),sheet = 13,range = "A2:R62",col_names = TRUE)
+
+
+APRC1 <- as.data.frame(APRC[2:28,1:16])
+#nuevos nombres
+names(APRC1)[4:14] <- c("0%","2%","4%","20%","35%","50%","75%","100%","125%","150%","1250%")
+#reemplazo NA's
+APRC1[which(is.na(APRC1[,1])),1] <- ""
+APRC1[which(is.na(APRC1[,2])),2] <- ""
+APRC1[which(APRC1[,2]!=""),2] <- c("0%","20%","40%","50%","90%","100%")
+APRC1[which(is.na(APRC1[,3])),3] <- APRC1[17,3]
+APRC1[,4:16] <- 0
+
+#convierto el codigo en factor
+APRC1[,1] <- as.factor(APRC1[,1])
+
+str(APRC1)
+
+#Relleno celdas de ponderadores
+BG <- as.data.frame(BG)
+
+pond <- c("0.0","0.002","0.004","0.2","0.35","0.50","0.75","1","1.25","1.50","12.5")
+
+for(j in 1:length(pond)){
+  for(i in 1:nrow(APRC1)){
+    APRC1[i,3+j] <- sum(BG[which(as.numeric(paste(as.character(APRC1[i,1]),pond[j],sep = ""))==BG[,7]),7+j])
+  }
+}
+
+
