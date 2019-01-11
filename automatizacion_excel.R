@@ -199,13 +199,13 @@ APRC1[i,3+j] <- sum(BG[which(as.numeric(paste(as.character(APRC1[i,1]),pond[j],s
 APRC1[9,4] <- (sum(balance[which("1377102"==balance[,3]),7])+sum(balance[which("1334102"==balance[,3]),7]))/1000
 
 #Replico suma de pestaña Cobertura RC
-co1 <- sum(balance[which("141134"==balance[,5]),7])/1000
-co2 <- sum(balance[which("145129"==balance[,5]),7])/1000
-co3 <- sum(balance[which("321171"==balance[,5]),7])/1000
-co4 <- sum(balance[which("321189"==balance[,5]),7])/1000
+co1 <- sum(balance[which("141134"==balance[,6]),7])/1000
+co2 <- sum(balance[which("145129"==balance[,6]),7])/1000
+co3 <- sum(balance[which("321171"==balance[,6]),7])/1000
+co4 <- sum(balance[which("321189"==balance[,6]),7])/1000
 #co5 <- sum(balance[which("325171"==balance[,5]),7])/1000
 #ojo
-co5 <- sum(balance[which("3251461"==balance[,5]),7])/1000
+co5 <- sum(balance[which("3251461"==balance[,3]),7])/1000
 
 co1+co2+co3+co4+co5
 
@@ -215,11 +215,45 @@ if((co2+co1)*(1+0)-(-co3-co4)*(1-0.04)-(-co5)*(1-0.12)>0){
   APRC1[15,4] <- APRC1[15,4]+(co2+co1)*(1+0)-(-co3-co4)*(1-0.04)-(-co5)*(1-0.12)
 }
 
-
-
 #columna 20%
-APRC1[6,7] <- 
+#existen dos celdas de donde se alimenta este valor G10 y G11 
+#G10, lee de pestaña "Exp a entidades financieras < 90"
+#leo pestaña
+exp_ent_fin <- read_excel(path = paste(getwd(),"excel.xlsx",sep = "/"),sheet = 16,range = "A4:O78",col_names = TRUE)
+
+#relleno columna plazo contractual
+exp_ent_fin$plazo_contractual <- rep(0,nrow(exp_ent_fin))
+for(i in 1:nrow(exp_ent_fin)){
+exp_ent_fin$plazo_contractual[i] <- as.numeric(exp_ent_fin$`Fec Vencimiento`[i] - exp_ent_fin$`Fec Origen`[i])
+}
+
+#relleno columna < 90 dias
+exp_ent_fin$menor_90 <- rep(0,nrow(exp_ent_fin))
+exp_ent_fin$menor_90[which(exp_ent_fin$plazo_contractual<90 & exp_ent_fin$plazo_contractual!=0)] <- exp_ent_fin$plazo_contractual[which(exp_ent_fin$plazo_contractual<90 & exp_ent_fin$plazo_contractual!=0)]
   
+#relleno columna Deuda
+#suma columan G + I de las respectivas filas 
+exp_ent_fin$deuda <- rep(0,nrow(exp_ent_fin))
+
+for(i in 1:nrow(exp_ent_fin)){
+  if(exp_ent_fin[i,17]!=0){
+    exp_ent_fin[i,18] <- exp_ent_fin[i,7]+exp_ent_fin[i,9]
+  }
+}
+
+#el valor que se necesita de esta pestaña es
+sum(exp_ent_fin[,18])
+
+APRC1[7,7] <- sum(exp_ent_fin[,18])/1000
+
+#G11
+#lee de otro excel, asigno valor Manual (por ahora)
+APRC1[8,7] <- 4756372
+
+
+APRC1[6,7] <- APRC1[7,7] + APRC1[8,7]
+  
+ 
 #columna 35%
 APRC1[12,8] <- 
 
